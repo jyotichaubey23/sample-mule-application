@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="435324e4-bf40-4b26-97b8-f60ce66ed5ea" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="samplemueFlow" doc:id="74eca893-6fcc-45ba-8c88-d6279682aae2" >
+		<http:listener doc:name="Listener" doc:id="c55f54ad-e390-4d84-aafd-42c530e1483e" path="/search/{likes}" config-ref="HTTP_Listener_config"/>
+		<set-variable value="#[attributes.uriParams.likes]" doc:name="fetching the value of uri parameter entered by user" doc:id="90e69cee-d3f2-4cf8-a364-8a0a9d490c5c" variableName="likes" doc:description="This" mimeType="text/plain"/>
+		<set-payload value="#['Hello users you like ' ++  vars.likes as String]" doc:name="setting the output payload" doc:id="c391692b-2508-43a9-b21f-c31dcbad09e4" doc:description="Setting the output payload by concatinating it with the uri parameter."/>
+		<logger level="INFO" doc:name="Logger" doc:id="1cd0a5ad-b64b-4be8-bf66-6832d0192635" message="#[payload]"/>
+	</flow>
+</mule>
